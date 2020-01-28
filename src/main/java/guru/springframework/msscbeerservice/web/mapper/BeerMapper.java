@@ -1,0 +1,16 @@
+package guru.springframework.msscbeerservice.web.mapper;
+
+import guru.springframework.msscbeerservice.domain.Beer;
+import guru.springframework.msscbeerservice.web.model.BeerDto;
+import org.mapstruct.Mapper;
+
+/**
+ * Created by at 1/28/2020
+ */
+@Mapper(uses = {DateMapper.class})
+public interface BeerMapper {
+
+    BeerDto beerToBeerDto(Beer beer);
+
+    Beer beerDtoToBeer(BeerDto beerDto);
+}

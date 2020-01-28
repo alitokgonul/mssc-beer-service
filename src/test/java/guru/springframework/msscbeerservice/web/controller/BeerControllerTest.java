@@ -1,7 +1,9 @@
 package guru.springframework.msscbeerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.msscbeerservice.domain.Beer;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
+import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,7 +39,7 @@ class BeerControllerTest {
 
     @Test
     void saveBeer() throws Exception {
-        BeerDto beerDto = BeerDto.builder().beerName("Test Name").build();
+        BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
         mockMvc.perform(post("/api/v1/beer/")
@@ -48,7 +50,7 @@ class BeerControllerTest {
 
     @Test
     void updateBeer() throws Exception {
-        BeerDto beerDto = BeerDto.builder().build();
+        BeerDto beerDto = getValidBeerDto();
         String beerDtoJson = objectMapper.writeValueAsString(beerDto);
 
         mockMvc.perform(put("/api/v1/beer/" + UUID.randomUUID())
@@ -61,5 +63,14 @@ class BeerControllerTest {
     void deleteBeer() throws Exception {
         mockMvc.perform(delete("/api/v1/beer/" + UUID.randomUUID()))
                 .andExpect(status().isOk());
+    }
+
+    private BeerDto getValidBeerDto() {
+        return BeerDto.builder()
+                .beerName("TestName")
+                .price(new BigDecimal("23.22"))
+                .beerStyle(BeerStyleEnum.ALE)
+                .upc(123123123123L)
+                .build();
     }
 }
